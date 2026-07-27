@@ -8,8 +8,6 @@ import { Problem } from "@/lib/db";
 import confetti from "canvas-confetti";
 
 interface PatternViewProps {
-  categoryName: string;
-  categoryNumber: string;
   pattern: {
     number: number;
     name: string;
@@ -23,8 +21,6 @@ interface PatternViewProps {
 }
 
 export default function PatternView({
-  categoryName,
-  categoryNumber,
   pattern,
   search,
   selectedDifficulty,
@@ -35,8 +31,6 @@ export default function PatternView({
   const { dbData, activeUserId } = useTracker();
   const [isExpanded, setIsExpanded] = useState(false);
   const prevCompletedCountRef = useRef<number | null>(null);
-
-  if (!dbData) return null;
 
   // Filter problems in this pattern based on the dashboard filters
   const filteredProblems = pattern.problems.filter(p => {
@@ -57,7 +51,7 @@ export default function PatternView({
 
     // 3. Bookmarks
     if (showBookmarkedOnly) {
-      const isBookmarked = dbData.bookmarks.some(
+      const isBookmarked = dbData!.bookmarks.some(
         b => b.user_id === activeUserId && b.problem_id === p.id
       );
       if (!isBookmarked) return false;
@@ -65,7 +59,7 @@ export default function PatternView({
 
     // 4. Revision Status
     if (selectedRevision !== "all") {
-      const rev = dbData.revision.find(
+      const rev = dbData!.revision.find(
         r => r.user_id === activeUserId && r.problem_id === p.id
       );
       if (selectedRevision === "none" && rev && rev.status !== "none") return false;
@@ -74,10 +68,10 @@ export default function PatternView({
 
     // 5. Completion Filter
     if (showCompletionFilter !== "all") {
-      const activeComp = dbData.completion.find(
+      const activeComp = dbData!.completion.find(
         c => c.user_id === activeUserId && c.problem_id === p.id
       );
-      const partnerComp = dbData.completion.find(
+      const partnerComp = dbData!.completion.find(
         c => c.user_id !== activeUserId && c.problem_id === p.id
       );
 
@@ -94,7 +88,7 @@ export default function PatternView({
   // Calculate completion count for active user (on ALL problems in this pattern, regardless of filter)
   const patternProblemsList = pattern.problems;
   const completedCount = patternProblemsList.filter(p => {
-    const comp = dbData.completion.find(
+    const comp = dbData!.completion.find(
       c => c.user_id === activeUserId && c.problem_id === p.id
     );
     return !!comp?.completed;

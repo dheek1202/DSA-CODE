@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useTracker } from "@/app/providers";
-import { ExternalLink, Bookmark, FileText, ChevronDown, Check, Loader2, Users } from "lucide-react";
+import { ExternalLink, Bookmark, FileText, Check, Loader2, Users } from "lucide-react";
 import { Problem } from "@/lib/db";
 
 interface ProblemRowProps {
@@ -26,13 +26,12 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
   const [savingNote, setSavingNote] = useState(false);
   const noteDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  if (!dbData) return null;
 
   // Retrieve user completion states
-  const activeUserCompletion = dbData.completion.find(
+  const activeUserCompletion = dbData!.completion.find(
     c => c.user_id === activeUserId && c.problem_id === problem.id
   );
-  const partnerUserCompletion = dbData.completion.find(
+  const partnerUserCompletion = dbData!.completion.find(
     c => c.user_id !== activeUserId && c.problem_id === problem.id
   );
 
@@ -40,21 +39,21 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
   const isPartnerCompleted = !!partnerUserCompletion?.completed;
 
   // Retrieve bookmark states
-  const activeUserBookmark = dbData.bookmarks.some(
+  const activeUserBookmark = dbData!.bookmarks.some(
     b => b.user_id === activeUserId && b.problem_id === problem.id
   );
 
   // Retrieve revision states
-  const activeUserRevision = dbData.revision.find(
+  const activeUserRevision = dbData!.revision.find(
     r => r.user_id === activeUserId && r.problem_id === problem.id
   );
   const activeRevisionStatus = activeUserRevision?.status || "none";
 
   // Retrieve note states
-  const activeUserNote = dbData.notes.find(
+  const activeUserNote = dbData!.notes.find(
     n => n.user_id === activeUserId && n.problem_id === problem.id
   );
-  const partnerUserNote = dbData.notes.find(
+  const partnerUserNote = dbData!.notes.find(
     n => n.user_id !== activeUserId && n.problem_id === problem.id
   );
 
@@ -108,35 +107,12 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
     });
   };
 
-  const handleRevisionChange = (status: any) => {
+  const handleRevisionChange = (status: string) => {
     mutateRevision.mutate({
       userId: activeUserId,
       problemId: problem.id,
       status,
     });
-  };
-
-  // Difficulty colors mapping
-  const getDifficultyStyles = (diff: string) => {
-    const d = diff.toLowerCase();
-    if (d === "easy") {
-      return "bg-green-50 text-green-700 border-green-200 dark:bg-green-950/20 dark:text-green-400 dark:border-green-900/50";
-    }
-    if (d === "medium") {
-      return "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/50";
-    }
-    if (d === "hard") {
-      return "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/20 dark:text-red-400 dark:border-red-900/50";
-    }
-    return "bg-slate-50 text-slate-700 border-slate-200 dark:bg-slate-900/20 dark:text-slate-400 dark:border-slate-800/50";
-  };
-
-  // Revision labels / colors
-  const getRevisionLabel = (rev: string) => {
-    if (rev === "needs_revision") return "Needs Revision";
-    if (rev === "revised_once") return "Revised Once";
-    if (rev === "mastered") return "Mastered";
-    return "Revision Status";
   };
 
   return (
@@ -298,7 +274,7 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
           {/* Partner's Note display */}
           <div className="space-y-1.5">
             <div className="flex items-center text-xs font-bold text-txt-main gap-1.5 font-mono uppercase tracking-wider">
-              <Users className="h-3.5 w-3.5 text-completed" /> {partnerUser?.name}'s Notes
+              <Users className="h-3.5 w-3.5 text-completed" /> {partnerUser?.name}{"'s Notes"}
             </div>
             <div className="w-full h-32 rounded-none border-2 border-border bg-card/60 p-3 text-xs text-txt-muted overflow-auto font-mono">
               {partnerUserNote?.note ? (

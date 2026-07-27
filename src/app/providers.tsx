@@ -14,10 +14,15 @@ interface TrackerContextType {
   isLoading: boolean;
   isError: boolean;
   refetchDb: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutateCompletion: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutateNote: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutateBookmark: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutateRevision: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutateUserSettings: any;
   isSupabase: boolean;
 }
@@ -186,7 +191,7 @@ function TrackerProviderInternal({ children }: { children: React.ReactNode }) {
   });
 
   const mutateRevision = useMutation({
-    mutationFn: async ({ userId, problemId, status }: { userId: string; problemId: string; status: any }) => {
+    mutationFn: async ({ userId, problemId, status }: { userId: string; problemId: string; status: "none" | "needs_revision" | "revised_once" | "mastered" }) => {
       const res = await fetch("/api/db", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -229,7 +234,7 @@ function TrackerProviderInternal({ children }: { children: React.ReactNode }) {
       });
       return res.json();
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["db"] });
     },
   });

@@ -229,8 +229,6 @@ export default function Home() {
                           {category.patterns.map(pattern => (
                             <PatternView
                               key={pattern.number}
-                              categoryName={category.name}
-                              categoryNumber={category.number}
                               pattern={pattern}
                               search={search}
                               selectedDifficulty={selectedDifficulty}

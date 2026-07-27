@@ -5,9 +5,10 @@ export async function GET() {
   try {
     const data = await DbService.getDb();
     return NextResponse.json(data);
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to load database";
     console.error("API GET Error:", error);
-    return NextResponse.json({ error: error.message || "Failed to load database" }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -69,8 +70,9 @@ export async function POST(request: Request) {
       default:
         return NextResponse.json({ error: `Unknown action: ${action}` }, { status: 400 });
     }
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to update database";
     console.error("API POST Error:", error);
-    return NextResponse.json({ error: error.message || "Failed to update database" }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

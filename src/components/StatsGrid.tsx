@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useTracker } from "@/app/providers";
-import { CheckCircle2, Flame, Calendar, Award } from "lucide-react";
+import { CheckCircle2, Flame, Calendar } from "lucide-react";
 
 export default function StatsGrid() {
   const { dbData, activeUserId, activeUser } = useTracker();

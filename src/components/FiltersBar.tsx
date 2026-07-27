@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, Bookmark, RefreshCw, Layers, CheckCircle } from "lucide-react";
+import { Search, Bookmark } from "lucide-react";
 
 interface FiltersBarProps {
   search: string;

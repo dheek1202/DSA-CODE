@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useTracker } from "@/app/providers";
-import { Search, ExternalLink, Moon, Sun, Users, BookOpen } from "lucide-react";
+import { Search, ExternalLink, Sun, Users } from "lucide-react";
 import { Problem } from "@/lib/db";
 
 export default function CommandPalette() {
-  const { dbData, activeUserId, setActiveUserId, activeUser, partnerUser } = useTracker();
+  const { dbData, setActiveUserId, partnerUser } = useTracker();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -110,7 +110,7 @@ export default function CommandPalette() {
       const item = allItems[selectedIndex];
       if (item) {
         if (item.type === "command") {
-          (item as any).action();
+          (item as unknown as { action: () => void }).action();
         } else if (item.type === "problem") {
           const p = item as Problem;
           window.open(`https://leetcode.com/problems/${p.leetcode_slug}/`, "_blank");
@@ -152,7 +152,7 @@ export default function CommandPalette() {
         <div className="max-h-[320px] overflow-y-auto p-2">
           {allItems.length === 0 ? (
             <div className="text-center py-8 text-sm text-txt-muted font-mono">
-              // No matching commands or problems found.
+              No matching commands or problems found.
             </div>
           ) : (
             <div className="space-y-0.5">
@@ -162,7 +162,7 @@ export default function CommandPalette() {
                   return (
                     <button
                       key={item.id}
-                      onClick={() => (item as any).action()}
+                      onClick={() => (item as unknown as { action: () => void }).action()}
                       className={`flex w-full items-center justify-between rounded-none px-3 py-2.5 text-left transition ${
                         isSelected ? "bg-brand text-white font-bold" : "hover:bg-main/40 text-txt-main font-semibold"
                       }`}

@@ -35,7 +35,7 @@ export default function AdminReview() {
             </span>
           </div>
           <div>
-            <h4 className="text-sm font-extrabold text-txt-main">Pattern 9: Stray "1"</h4>
+            <h4 className="text-sm font-extrabold text-txt-main">Pattern 9: Stray {"\"1\""}</h4>
             <p className="text-xs text-txt-muted mt-1 leading-relaxed">
               A stray number <code className="font-bold text-brand bg-main border-2 border-border px-1.5 py-0.5 rounded-none font-mono">1</code> was found in the source sheet immediately preceding LeetCode 1658.
             </p>
@@ -65,7 +65,7 @@ export default function AdminReview() {
             </span>
           </div>
           <div>
-            <h4 className="text-sm font-extrabold text-txt-main">Pattern 93: Truncated "604. D..."</h4>
+            <h4 className="text-sm font-extrabold text-txt-main">Pattern 93: Truncated {"\"604. D...\""}</h4>
             <p className="text-xs text-txt-muted mt-1 leading-relaxed">
               The final entry in the Design pattern list was cut off mid-word as <code className="font-bold text-brand bg-main border-2 border-border px-1.5 py-0.5 rounded-none font-mono">604. D...</code>.
             </p>

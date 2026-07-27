@@ -2,14 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useTracker } from "@/app/providers";
-import { Moon, Sun, Settings, Users, ChevronDown, Check, Edit2 } from "lucide-react";
+import { Moon, Sun, Settings, Users, ChevronDown, Check } from "lucide-react";
 
 export default function Navbar() {
   const {
     activeUserId,
     setActiveUserId,
     activeUser,
-    partnerUser,
     dbData,
     mutateUserSettings
   } = useTracker();

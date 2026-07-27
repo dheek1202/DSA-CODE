@@ -5,15 +5,12 @@ import { useTracker } from "@/app/providers";
 import { BarChart3, Bookmark } from "lucide-react";
 
 export default function StatsView() {
-  const { dbData, activeUserId, activeUser, partnerUser } = useTracker();
+  const { dbData, activeUserId, activeUser } = useTracker();
 
   if (!dbData) return null;
 
-  const totalProblems = dbData.problems.length;
-
   // Active user completions
   const activeCompletions = dbData.completion.filter(c => c.user_id === activeUserId && c.completed);
-  const partnerCompletions = dbData.completion.filter(c => c.user_id !== activeUserId && c.completed);
 
   // Difficulty breakdown
   const difficulties = ["Easy", "Medium", "Hard"];

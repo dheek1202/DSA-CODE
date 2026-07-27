@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { categoriesData, RawProblem } from "../lib/problems-data";
+import { categoriesData } from "../lib/problems-data";
 
 interface LeetCodeStat {
   stat: {
@@ -43,7 +43,7 @@ async function runSeed() {
     fs.mkdirSync(dataDir);
   }
 
-  let leetCodeMap = new Map<number, { slug: string; difficulty: string }>();
+  const leetCodeMap = new Map<number, { slug: string; difficulty: string }>();
 
   try {
     console.log("Fetching official LeetCode problems list...");
@@ -66,11 +66,13 @@ async function runSeed() {
         difficulty: mapDifficulty(item.difficulty.level),
       });
     }
-  } catch (err: any) {
-    console.warn("WARNING: Failed to fetch LeetCode API. Falling back to local slug generation. Error:", err.message);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn("WARNING: Failed to fetch LeetCode API. Falling back to local slug generation. Error:", msg);
   }
 
   // Seeded problems array
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const seededProblems: any[] = [];
   let orderIndex = 1;
 

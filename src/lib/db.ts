@@ -133,7 +133,7 @@ export const DbService = {
         { data: revision }
       ] = await Promise.all([
         supabase.from("users").select("*"),
-        supabase.from("problems").select("*").order("order_overall" as any),
+        supabase.from("problems").select("*").order("order_overall"),
         supabase.from("completion").select("*"),
         supabase.from("notes").select("*"),
         supabase.from("bookmarks").select("*"),

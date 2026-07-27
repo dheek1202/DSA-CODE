@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-main: #FFFFFF;
+    --bg-card: #F8FAFC;
+    --border-color: #0F172A;
+    --accent-color: #2563EB;
+    --completed-color: #10B981;
+    --progress-color: #F59E0B;
+    --remaining-color: #E2E8F0;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+  }
+
+  .dark {
+    --bg-main: #000000;
+    --bg-card: #0A0F1D;
+    --border-color: #334155;
+    --accent-color: #3B82F6;
+    --completed-color: #10B981;
+    --progress-color: #F59E0B;
+    --remaining-color: #1E293B;
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+  }
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.2s, color 0.2s;
+  
+  /* Minimalist tech alignment background grid */
+  background-image: radial-gradient(#CBD5E1 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
+}
+
+.dark body {
+  background-image: radial-gradient(#334155 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
+}
+
+/* Custom Scrollbar for Brutalist look */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Custom Utility animations */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+
+/* Custom animations & glow effects */
+.glow-brand {
+  box-shadow: 0 0 15px -3px rgba(59, 130, 246, 0.15);
+}
+
+.glow-completed {
+  box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.15);
+}
+

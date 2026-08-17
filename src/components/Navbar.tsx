@@ -51,8 +51,8 @@ export default function Navbar() {
   // Sync settings inputs when loaded
   useEffect(() => {
     if (dbData?.users) {
-      const u1 = dbData.users.find(u => u.id === "user-1");
-      const u2 = dbData.users.find(u => u.id === "user-2");
+      const u1 = dbData.users[0];
+      const u2 = dbData.users[1];
       if (u1) {
         setUserName1(u1.name);
         setUserAvatar1(u1.avatar);
@@ -65,10 +65,14 @@ export default function Navbar() {
   }, [dbData]);
 
   const handleSaveSettings = () => {
-    mutateUserSettings.mutate([
-      { id: "user-1", name: userName1, avatar: userAvatar1 },
-      { id: "user-2", name: userName2, avatar: userAvatar2 }
-    ]);
+    if (dbData?.users) {
+      const u1 = dbData.users[0];
+      const u2 = dbData.users[1];
+      mutateUserSettings.mutate([
+        { id: u1?.id || "user-1", name: userName1, avatar: userAvatar1 },
+        { id: u2?.id || "user-2", name: userName2, avatar: userAvatar2 }
+      ]);
+    }
     setShowSettings(false);
   };
 
@@ -96,7 +100,7 @@ export default function Navbar() {
                 className="flex items-center gap-2 rounded-none border-2 border-border bg-card px-3 py-1.5 text-sm font-bold text-txt-main hover:bg-main transition"
               >
                 <span className={`flex h-6 w-6 items-center justify-center rounded-none text-[10px] font-extrabold uppercase border-2 ${
-                  activeUserId === "user-1" 
+                  activeUserId === (dbData?.users[0]?.id || "user-1") 
                     ? "border-brand text-brand bg-brand/5" 
                     : "border-completed text-completed bg-completed/5"
                 }`}>
@@ -129,7 +133,7 @@ export default function Navbar() {
                       >
                         <div className="flex items-center gap-2">
                           <span className={`flex h-5 w-5 items-center justify-center rounded-none text-[9px] font-extrabold uppercase border-2 ${
-                            u.id === "user-1" 
+                            u.id === (dbData?.users[0]?.id || "user-1") 
                               ? "border-brand text-brand bg-brand/5" 
                               : "border-completed text-completed bg-completed/5"
                           }`}>

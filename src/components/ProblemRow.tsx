@@ -27,16 +27,16 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
   const noteDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
 
-  // Retrieve user completion states for specific users
-  const user1 = dbData!.users.find(u => u.id === "user-1");
-  const user2 = dbData!.users.find(u => u.id === "user-2");
+  // Retrieve user completion states for specific users (user 1 is index 0, user 2 is index 1)
+  const user1 = dbData!.users[0];
+  const user2 = dbData!.users[1];
 
-  const user1Completion = dbData!.completion.find(
-    c => c.user_id === "user-1" && c.problem_id === problem.id
-  );
-  const user2Completion = dbData!.completion.find(
-    c => c.user_id === "user-2" && c.problem_id === problem.id
-  );
+  const user1Completion = user1
+    ? dbData!.completion.find(c => c.user_id === user1.id && c.problem_id === problem.id)
+    : undefined;
+  const user2Completion = user2
+    ? dbData!.completion.find(c => c.user_id === user2.id && c.problem_id === problem.id)
+    : undefined;
 
   const isUser1Completed = !!user1Completion?.completed;
   const isUser2Completed = !!user2Completion?.completed;
@@ -130,9 +130,9 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
         <div className="flex items-center gap-4 min-w-0">
           {/* User 1 Checkbox (Interactive only if profile is User 1) */}
           <div className="flex items-center gap-1.5 shrink-0">
-            {activeUserId === "user-1" ? (
+            {user1 && activeUserId === user1.id ? (
               <button
-                onClick={() => handleCheckboxToggle("user-1", isUser1Completed)}
+                onClick={() => handleCheckboxToggle(user1.id, isUser1Completed)}
                 className={`flex h-5 w-5 items-center justify-center rounded-none border-2 transition-all duration-150 active:scale-90 focus:outline-none ${
                   isUser1Completed
                     ? "bg-brand border-brand text-white shadow-sm"
@@ -161,9 +161,9 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
 
           {/* User 2 Checkbox (Interactive only if profile is User 2) */}
           <div className="flex items-center gap-1.5 shrink-0">
-            {activeUserId === "user-2" ? (
+            {user2 && activeUserId === user2.id ? (
               <button
-                onClick={() => handleCheckboxToggle("user-2", isUser2Completed)}
+                onClick={() => handleCheckboxToggle(user2.id, isUser2Completed)}
                 className={`flex h-5 w-5 items-center justify-center rounded-none border-2 transition-all duration-150 active:scale-90 focus:outline-none ${
                   isUser2Completed
                     ? "bg-brand border-brand text-white shadow-sm"

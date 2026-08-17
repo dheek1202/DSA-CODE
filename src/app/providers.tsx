@@ -110,6 +110,16 @@ function TrackerProviderInternal({ children }: { children: React.ReactNode }) {
     },
   });
 
+  // Automatically fall back to first user in database if activeUserId is not valid
+  useEffect(() => {
+    if (dbData?.users && dbData.users.length > 0) {
+      const activeExists = dbData.users.some((u) => u.id === activeUserId);
+      if (!activeExists) {
+        setActiveUserIdState(dbData.users[0].id);
+      }
+    }
+  }, [dbData, activeUserId]);
+
   const activeUser = dbData?.users.find((u) => u.id === activeUserId);
   const partnerUser = dbData?.users.find((u) => u.id !== activeUserId);
 

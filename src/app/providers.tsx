@@ -104,7 +104,7 @@ function TrackerProviderInternal({ children }: { children: React.ReactNode }) {
   } = useQuery<DatabaseSchema>({
     queryKey: ["db"],
     queryFn: async () => {
-      const res = await fetch("/api/db");
+      const res = await fetch("/api/db", { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to fetch database");
       return res.json();
     },

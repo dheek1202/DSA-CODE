@@ -27,16 +27,19 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
   const noteDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
 
-  // Retrieve user completion states
-  const activeUserCompletion = dbData!.completion.find(
-    c => c.user_id === activeUserId && c.problem_id === problem.id
+  // Retrieve user completion states for specific users
+  const user1 = dbData!.users.find(u => u.id === "user-1");
+  const user2 = dbData!.users.find(u => u.id === "user-2");
+
+  const user1Completion = dbData!.completion.find(
+    c => c.user_id === "user-1" && c.problem_id === problem.id
   );
-  const partnerUserCompletion = dbData!.completion.find(
-    c => c.user_id !== activeUserId && c.problem_id === problem.id
+  const user2Completion = dbData!.completion.find(
+    c => c.user_id === "user-2" && c.problem_id === problem.id
   );
 
-  const isActiveCompleted = !!activeUserCompletion?.completed;
-  const isPartnerCompleted = !!partnerUserCompletion?.completed;
+  const isUser1Completed = !!user1Completion?.completed;
+  const isUser2Completed = !!user2Completion?.completed;
 
   // Retrieve bookmark states
   const activeUserBookmark = dbData!.bookmarks.some(
@@ -125,35 +128,66 @@ export default function ProblemRow({ problem }: ProblemRowProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3.5 px-4.5 text-sm">
         {/* Left Side: Checkboxes, Number, Name */}
         <div className="flex items-center gap-4 min-w-0">
-          {/* Active User Checkbox (Interactive) */}
+          {/* User 1 Checkbox (Interactive only if profile is User 1) */}
           <div className="flex items-center gap-1.5 shrink-0">
-            <button
-              onClick={() => handleCheckboxToggle(activeUserId, isActiveCompleted)}
-              className={`flex h-5 w-5 items-center justify-center rounded-none border-2 transition-all duration-150 active:scale-90 focus:outline-none ${
-                isActiveCompleted
-                  ? "bg-brand border-brand text-white shadow-sm"
-                  : "border-border bg-card hover:border-brand"
-              }`}
-              title={`Mark completed for Me (${activeUser?.name})`}
-            >
-              {isActiveCompleted && <Check className="h-3.5 w-3.5 stroke-[3px]" />}
-            </button>
-            <span className="text-xs font-bold text-txt-muted/80 sm:hidden" title={activeUser?.name}>Me</span>
+            {activeUserId === "user-1" ? (
+              <button
+                onClick={() => handleCheckboxToggle("user-1", isUser1Completed)}
+                className={`flex h-5 w-5 items-center justify-center rounded-none border-2 transition-all duration-150 active:scale-90 focus:outline-none ${
+                  isUser1Completed
+                    ? "bg-brand border-brand text-white shadow-sm"
+                    : "border-border bg-card hover:border-brand"
+                }`}
+                title={`Mark completed for ${user1?.name || "Me"}`}
+              >
+                {isUser1Completed && <Check className="h-3.5 w-3.5 stroke-[3px]" />}
+              </button>
+            ) : (
+              <div
+                className={`flex h-5 w-5 items-center justify-center rounded-none border-2 cursor-not-allowed opacity-75 ${
+                  isUser1Completed
+                    ? "bg-slate-400 dark:bg-slate-600 border-slate-400 dark:border-slate-600 text-white"
+                    : "border-slate-300 dark:border-slate-700 bg-card/40"
+                }`}
+                title={`${user1?.name || "Me"}'s progress (Read-only from this profile)`}
+              >
+                {isUser1Completed && <Check className="h-3.5 w-3.5 stroke-[3px]" />}
+              </div>
+            )}
+            <span className="text-xs font-bold text-txt-muted/80 sm:hidden" title={user1?.name || "Me"}>
+              {user1?.name || "Me"}
+            </span>
           </div>
 
-          {/* Partner User Checkbox (Read-only, Grey styled) */}
+          {/* User 2 Checkbox (Interactive only if profile is User 2) */}
           <div className="flex items-center gap-1.5 shrink-0">
-            <div
-              className={`flex h-5 w-5 items-center justify-center rounded-none border-2 cursor-not-allowed opacity-75 ${
-                isPartnerCompleted
-                  ? "bg-slate-400 dark:bg-slate-600 border-slate-400 dark:border-slate-600 text-white"
-                  : "border-slate-300 dark:border-slate-700 bg-card/40"
-              }`}
-              title={`${partnerUser?.name}'s progress (Read-only from this profile)`}
-            >
-              {isPartnerCompleted && <Check className="h-3.5 w-3.5 stroke-[3px]" />}
-            </div>
-            <span className="text-xs font-bold text-txt-muted/80 sm:hidden" title={partnerUser?.name}>Partner</span>
+            {activeUserId === "user-2" ? (
+              <button
+                onClick={() => handleCheckboxToggle("user-2", isUser2Completed)}
+                className={`flex h-5 w-5 items-center justify-center rounded-none border-2 transition-all duration-150 active:scale-90 focus:outline-none ${
+                  isUser2Completed
+                    ? "bg-brand border-brand text-white shadow-sm"
+                    : "border-border bg-card hover:border-brand"
+                }`}
+                title={`Mark completed for ${user2?.name || "Partner"}`}
+              >
+                {isUser2Completed && <Check className="h-3.5 w-3.5 stroke-[3px]" />}
+              </button>
+            ) : (
+              <div
+                className={`flex h-5 w-5 items-center justify-center rounded-none border-2 cursor-not-allowed opacity-75 ${
+                  isUser2Completed
+                    ? "bg-slate-400 dark:bg-slate-600 border-slate-400 dark:border-slate-600 text-white"
+                    : "border-slate-300 dark:border-slate-700 bg-card/40"
+                }`}
+                title={`${user2?.name || "Partner"}'s progress (Read-only from this profile)`}
+              >
+                {isUser2Completed && <Check className="h-3.5 w-3.5 stroke-[3px]" />}
+              </div>
+            )}
+            <span className="text-xs font-bold text-txt-muted/80 sm:hidden" title={user2?.name || "Partner"}>
+              {user2?.name || "Partner"}
+            </span>
           </div>
 
           {/* Number & Name */}

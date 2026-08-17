@@ -7,7 +7,7 @@
     },
     {
       "id": "user-2",
-      "name": "Partner",
+      "name": "Partn",
       "avatar": "👩‍💻"
     }
   ],
@@ -6227,20 +6227,20 @@
     {
       "user_id": "user-2",
       "problem_id": "problem-11-I-1-1",
-      "completed": false,
-      "completed_at": null
+      "completed": true,
+      "completed_at": "2026-08-17T07:53:23.775Z"
     },
     {
       "user_id": "user-1",
       "problem_id": "problem-11-I-1-1",
-      "completed": false,
-      "completed_at": null
+      "completed": true,
+      "completed_at": "2026-08-17T07:53:15.231Z"
     },
     {
       "user_id": "user-1",
       "problem_id": "problem-15-I-1-2",
-      "completed": false,
-      "completed_at": null
+      "completed": true,
+      "completed_at": "2026-08-17T07:53:16.404Z"
     },
     {
       "user_id": "user-1",
@@ -6259,9 +6259,26 @@
       "problem_id": "problem-15-I-1-2",
       "completed": false,
       "completed_at": null
+    },
+    {
+      "user_id": "user-2",
+      "problem_id": "problem-18-I-1-4",
+      "completed": true,
+      "completed_at": "2026-08-17T07:53:24.938Z"
+    },
+    {
+      "user_id": "user-2",
+      "problem_id": "problem-167-I-1-5",
+      "completed": true,
+      "completed_at": "2026-08-17T07:53:26.067Z"
     }
   ],
   "notes": [],
-  "bookmarks": [],
+  "bookmarks": [
+    {
+      "user_id": "user-2",
+      "problem_id": "problem-141-I-2-1"
+    }
+  ],
   "revision": []
 }

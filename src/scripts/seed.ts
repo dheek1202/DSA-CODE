@@ -133,7 +133,7 @@ async function runSeed() {
 
   // Also output Supabase SQL statements in a file for user convenience
   const sqlStatements = seededProblems.map(p => {
-    return `INSERT INTO problems (id, leetcode_number, leetcode_slug, name, category, pattern_number, pattern_name, difficulty, order_in_pattern) VALUES ('${p.id}', ${p.leetcode_number}, '${p.leetcode_slug}', '${p.name.replace(/'/g, "''")}', '${p.category.replace(/'/g, "''")}', ${p.pattern_number}, '${p.pattern_name.replace(/'/g, "''")}', '${p.difficulty}', ${p.order_in_pattern}) ON CONFLICT (id) DO UPDATE SET leetcode_slug = EXCLUDED.leetcode_slug, difficulty = EXCLUDED.difficulty;`;
+    return `INSERT INTO problems (id, leetcode_number, leetcode_slug, name, category, category_number, pattern_number, pattern_name, difficulty, order_in_pattern, order_overall, is_stray, is_truncated) VALUES ('${p.id}', ${p.leetcode_number}, '${p.leetcode_slug}', '${p.name.replace(/'/g, "''")}', '${p.category.replace(/'/g, "''")}', '${p.category_number}', ${p.pattern_number}, '${p.pattern_name.replace(/'/g, "''")}', '${p.difficulty}', ${p.order_in_pattern}, ${p.order_overall}, ${p.is_stray}, ${p.is_truncated}) ON CONFLICT (id) DO UPDATE SET leetcode_slug = EXCLUDED.leetcode_slug, difficulty = EXCLUDED.difficulty, category_number = EXCLUDED.category_number, order_overall = EXCLUDED.order_overall;`;
   });
 
   const sqlPath = path.join(dataDir, "seed-problems.sql");

@@ -169,6 +169,8 @@ function TrackerProviderInternal({ children }: { children: React.ReactNode }) {
       if (context?.previousDb) {
         queryClient.setQueryData(["db"], context.previousDb);
       }
+      console.error("Completion update failed:", err);
+      alert(`Failed to save checkmark: ${err instanceof Error ? err.message : String(err)}. Please verify database connectivity and Row Level Security (RLS) policies on Supabase.`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["db"] });
@@ -220,6 +222,8 @@ function TrackerProviderInternal({ children }: { children: React.ReactNode }) {
       if (context?.previousDb) {
         queryClient.setQueryData(["db"], context.previousDb);
       }
+      console.error("Note update failed:", err);
+      alert(`Failed to save note: ${err instanceof Error ? err.message : String(err)}. Please verify database connectivity and Row Level Security (RLS) policies on Supabase.`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["db"] });
@@ -268,6 +272,8 @@ function TrackerProviderInternal({ children }: { children: React.ReactNode }) {
       if (context?.previousDb) {
         queryClient.setQueryData(["db"], context.previousDb);
       }
+      console.error("Bookmark update failed:", err);
+      alert(`Failed to update bookmark: ${err instanceof Error ? err.message : String(err)}. Please verify database connectivity and Row Level Security (RLS) policies on Supabase.`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["db"] });
@@ -314,6 +320,8 @@ function TrackerProviderInternal({ children }: { children: React.ReactNode }) {
       if (context?.previousDb) {
         queryClient.setQueryData(["db"], context.previousDb);
       }
+      console.error("Revision update failed:", err);
+      alert(`Failed to update revision status: ${err instanceof Error ? err.message : String(err)}. Please verify database connectivity and Row Level Security (RLS) policies on Supabase.`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["db"] });
